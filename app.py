@@ -7,9 +7,12 @@ import os
 import nltk
 import streamlit as st
 
+st.set_option('deprecation.showPyplotGlobalUse', False)
+
 books = pd.read_csv('data/Books.csv')
 ratings = pd.read_csv('data/Ratings.csv')
 users = pd.read_csv('data/Users.csv')
+
 #display(books.head())
 #display(ratings.head())
 #display(users.head())
@@ -110,7 +113,7 @@ for bar in bars:
     height = bar.get_height()
     plt.text(bar.get_x() + bar.get_width()/2, height,
              '{:.0f}'.format(height), ha='center', va='bottom', rotation=90)
-#plt.show()
+st.pyplot(plt.show())
 
 books[books['Book-Author'].duplicated()]
 
@@ -135,7 +138,7 @@ for i, value in enumerate(author_book_count_top50.values):
 plt.ylabel("Author Names")
 plt.xlabel("Number of Books Written")
 plt.title("Top 50 authors with highest number of books written")
-#plt.show()
+st.pyplot(plt.show())
 
 publishers = books['Publisher'].value_counts()
 publishers
@@ -158,7 +161,7 @@ for i, value in enumerate(top_50_publishers.values):
 plt.ylabel("Publisher Names")
 plt.xlabel("Number of Books Published")
 plt.title("Top 50 Publishers with highest number of books published")
-#plt.show()
+st.pyplot(plt.show())
 
 bookRating = pd.merge(ratings, books, on="ISBN")
 bookRating.head()
@@ -205,13 +208,13 @@ plt.xticks(rotation=90)
 plt.xlabel("Number of Books")
 plt.ylabel('Average Rating')
 plt.title("Number of books with the average rating")
-#plt.show()
+st.pyplot(plt.show())
 
 top_20_ratings = books_with_rating['Average-Rating'].value_counts().drop(index=0.0).sort_values(ascending=False).head(20)
 
 plt.pie(top_20_ratings, labels=top_20_ratings.index)
 plt.title("Distribution of ratings over total books")
-#plt.show()
+st.pyplot(plt.show())
 
 #display(users.shape)
 users.head()
