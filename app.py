@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import streamlit as st
-from sklearn.metrics.pairwise import cosine_similarity
+import sklearn
 
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
@@ -306,7 +306,7 @@ pt.fillna(0, inplace=True)
 #pt
 
 
-similarities = cosine_similarity(pt)
+similarities = sklearn.metrics.pairwise.cosine_similarity(pt)
 #similarities
 
 def recommend(book_name):
