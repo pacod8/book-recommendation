@@ -305,7 +305,6 @@ pt = filtered_books.pivot_table(index='Book-Title',columns='User-ID', values='Bo
 pt.fillna(0, inplace=True)
 #pt
 
-
 similarities = sklearn.metrics.pairwise.cosine_similarity(pt)
 #similarities
 
