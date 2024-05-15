@@ -309,7 +309,6 @@ famous_books = books[books['Book-Title'].isin(famous_books)]
 famous_books = famous_books.copy()
 famous_books.drop_duplicates(subset=['Book-Title'], inplace=True, keep='first')
 famous_top = filtered_books.groupby('Book-Title').max().reset_index()[filtered_books['Book-Rating']==10]
-famous_top.shape
 
 pt = filtered_books.pivot_table(index='Book-Title',columns='User-ID', values='Book-Rating')
 pt.fillna(0, inplace=True)
@@ -326,7 +325,7 @@ def recommend(book_name):
         list(enumerate(similarities[index])), key=lambda x: x[1], reverse=True)[1:11]
         
         st.write('-'*5)
-        st.write(f'Recommendations for the book {book_name}:')
+        st.write(f'**Recommendations for the book {book_name}:**')
         for book in similar_books_list[:5]:
             st.write(pt.index[book[0]])
         print('\n')
@@ -337,37 +336,36 @@ def recommend(book_name):
 
 
 
-row1 = st.columns(8)
-row2 = st.columns(8)
-row3 = st.columns(8)
-row4 = st.columns(8)
-row5 = st.columns(8)
-row6 = st.columns(8)
-row7 = st.columns(8)
-row8 = st.columns(8)
-row9 = st.columns(8)
-row10 = st.columns(8)
-row11= st.columns(8)
-row12 = st.columns(8)
-row13 = st.columns(8)
-row14 = st.columns(8)
-row15 = st.columns(8)
-row16 = st.columns(8)
-row17 = st.columns(8)
-row18 = st.columns(8)
-
-rows = st.columns(8)
-for row in range(17):
-    rows = rows + st.columns(8)
-
-for col in rows:
-    tile = col.container()
-    tile.title(":balloon:")
-
-
+st.markdown("# Recommend a book")
 selected_book = st.selectbox(
    "Select a book",
    (filtered_books['Book-Title'].tolist())
 )
 st.write(selected_book)
 recommend(selected_book)
+
+st.markdown("# Top Books")
+# Configurar el número de columnas en el grid
+num_columns = 8  # Número de columnas en el grid
+rows = (len(famous_top) + num_columns - 1) // num_columns  # Calcular el número de filas
+
+
+# Crear el grid de tarjetas
+for i in range(rows):
+    cols = st.columns(num_columns)  # Crear una fila con el número especificado de columnas
+    for j in range(num_columns):
+        index = i * num_columns + j
+        if index < len(famous_top):  # Comprobar que el índice está dentro del rango del DataFrame
+            with cols[j]:
+                st.write(f"**{famous_top.iloc[index, famous_top.columns.get_loc('Book-Title')]}**")
+                st.write(f"Author: {famous_top.iloc[index, famous_top.columns.get_loc('Book-Author')]}")
+                st.write(f"Rating: {famous_top.iloc[index, famous_top.columns.get_loc('Book-Rating')]}")
+                st.image(f"{famous_top.iloc[index, famous_top.columns.get_loc('Image-URL-S')]}")
+                st.markdown("---")  # Línea separadora entre tarjetas
+
+
+            #     st.write(f"**Book-Title:** {famous_top.loc[index+1, 'Book-Title']}")
+            #     st.write(f"**Book-Author:** {famous_top.loc[index+1, 'Book-Author']}")
+            #     st.write(f"**Book-Rating:** {famous_top.loc[index+1, 'Book-Rating']}")
+            #     st.markdown("---")  # Línea separadora entre tarjetas
+
