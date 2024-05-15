@@ -91,70 +91,7 @@ books.loc[255409, 'Year-Of-Publication'] = 1937
 # FOOTBALL SUPER TEAMS : FOOTBALL SUPER TEAMS
 books.loc[260974, 'Year-Of-Publication'] = 1991
 
-#display(
-#     books['Year-Of-Publication'].value_counts().sort_index().iloc[:20])
-# books['Year-Of-Publication'].value_counts().sort_index(ascending=False).iloc[:20]
 
-#books[(books['Year-Of-Publication']<1400)&(books['Year-Of-Publication']>0)]
-
-books_year_rational = books[books['Year-Of-Publication']!=0]['Year-Of-Publication'].value_counts().sort_index(ascending=False).iloc[:20]
-
-plt.figure(figsize=(20,10))
-bars = plt.bar(x=books_year_rational.index,height=books_year_rational.values)
-
-for bar in bars:
-    height = bar.get_height()
-    plt.text(bar.get_x() + bar.get_width()/2, height,
-             '{:.0f}'.format(height), ha='center', va='bottom', rotation=90)
-#st.pyplot(plt.show())
-
-#books[books['Book-Author'].duplicated()]
-
-author_book_count = books['Book-Author'].value_counts()
-#author_book_count.head(20)
-
-author_book_count = books[books['Book-Author']!= 'Not Applicable (Na )']
-author_book_count_top50 = author_book_count.groupby('Book-Author').count()['Book-Title'].sort_values(ascending=False).head(50)
-#author_book_count_top50.head(10)
-
-# cool = sns.color_palette("cool", n_colors=len(author_book_count_top50.values))
-
-plt.figure(figsize=(12, 12))
-
-# sns_plot = sns.barplot(y=author_book_count_top50.index,
-#                        x=author_book_count_top50.values, palette=cool, orient='h')
-
-# for i, value in enumerate(author_book_count_top50.values):
-#     sns_plot.text(value, i, int(value), ha="left",
-#                   va="center", color='black', fontsize=8)
-
-plt.ylabel("Author Names")
-plt.xlabel("Number of Books Written")
-plt.title("Top 50 authors with highest number of books written")
-#st.pyplot(plt.show())
-
-publishers = books['Publisher'].value_counts()
-#publishers
-
-top_50_publishers = publishers.sort_values(ascending=False)[:51]
-#top_50_publishers
-
-# cool = sns.color_palette("cool", n_colors=len(author_book_count_top50.values))
-
-# plt.figure(figsize=(12, 12))
-
-# sns_plot = sns.barplot(y=top_50_publishers.index,
-#             x=top_50_publishers.values, palette=cool,orient='h')
-
-# for i, value in enumerate(top_50_publishers.values):
-#     sns_plot.text(value, i, int(value), ha="left",
-#                   va="center", color='black', fontsize=8)
-                  
-
-plt.ylabel("Publisher Names")
-plt.xlabel("Number of Books Published")
-plt.title("Top 50 Publishers with highest number of books published")
-##st.pyplot(plt.show())
 
 bookRating = pd.merge(ratings, books, on="ISBN")
 bookRating.head()
@@ -178,8 +115,6 @@ averageRatingUnique.head()
 
 ratingBooks = pd.merge(books, averageRatingUnique, on='ISBN', how='inner')
 
-#display(books.shape)
-#averageRatingUnique.shape
 
 books_with_rating = pd.merge(books, averageRatingUnique, on='ISBN')
 #books_with_rating.shape
@@ -193,27 +128,7 @@ ratings_sorted = books_with_rating['Average-Rating'].value_counts().sort_index(a
 #display(ratings_sorted)
 books_with_rating['Average-Rating'].value_counts(normalize=True).round(4).sort_index(ascending=False)
 
-# cool = sns.color_palette("cool", n_colors=len(ratings_sorted.values))
-# plt.figure(figsize=(25,25))
-# ratings_sorted_0_excluded = ratings_sorted.drop(index=0.0).sort_index(ascending=False)
-# sns_plot = sns.barplot(x=ratings_sorted_0_excluded.index, y=ratings_sorted_0_excluded.values ,palette=cool)
-# plt.xticks(rotation=90)
-plt.xlabel("Number of Books")
-plt.ylabel('Average Rating')
-plt.title("Number of books with the average rating")
-#st.pyplot(plt.show())
 
-top_20_ratings = books_with_rating['Average-Rating'].value_counts().drop(index=0.0).sort_values(ascending=False).head(20)
-
-plt.pie(top_20_ratings, labels=top_20_ratings.index)
-plt.title("Distribution of ratings over total books")
-#st.pyplot(plt.show())
-
-#display(users.shape)
-#users.head()
-
-len(users.Location.unique())
-users.Location.value_counts()
 
 ratings_books_merged = ratings.merge(books, on='ISBN')
 #display(ratings_books_merged.head())
