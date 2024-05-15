@@ -1,5 +1,5 @@
 import pandas as pd
-import seaborn as sns
+#import seaborn as sns
 import numpy as np
 import warnings
 import matplotlib.pyplot as plt
@@ -13,13 +13,7 @@ books = pd.read_csv('data/Books.csv')
 ratings = pd.read_csv('data/Ratings.csv')
 users = pd.read_csv('data/Users.csv')
 
-#display(books.head())
-#display(ratings.head())
-#display(users.head())
 
-#display(books.shape)
-#display(ratings.shape)
-#display(users.shape)
 
 st.title("Book Recommendation System")
 st.subheader("Francisco Dominguez")
@@ -126,16 +120,16 @@ author_book_count = books[books['Book-Author']!= 'Not Applicable (Na )']
 author_book_count_top50 = author_book_count.groupby('Book-Author').count()['Book-Title'].sort_values(ascending=False).head(50)
 #author_book_count_top50.head(10)
 
-cool = sns.color_palette("cool", n_colors=len(author_book_count_top50.values))
+# cool = sns.color_palette("cool", n_colors=len(author_book_count_top50.values))
 
 plt.figure(figsize=(12, 12))
 
-sns_plot = sns.barplot(y=author_book_count_top50.index,
-                       x=author_book_count_top50.values, palette=cool, orient='h')
+# sns_plot = sns.barplot(y=author_book_count_top50.index,
+#                        x=author_book_count_top50.values, palette=cool, orient='h')
 
-for i, value in enumerate(author_book_count_top50.values):
-    sns_plot.text(value, i, int(value), ha="left",
-                  va="center", color='black', fontsize=8)
+# for i, value in enumerate(author_book_count_top50.values):
+#     sns_plot.text(value, i, int(value), ha="left",
+#                   va="center", color='black', fontsize=8)
 
 plt.ylabel("Author Names")
 plt.xlabel("Number of Books Written")
@@ -148,16 +142,16 @@ publishers = books['Publisher'].value_counts()
 top_50_publishers = publishers.sort_values(ascending=False)[:51]
 #top_50_publishers
 
-cool = sns.color_palette("cool", n_colors=len(author_book_count_top50.values))
+# cool = sns.color_palette("cool", n_colors=len(author_book_count_top50.values))
 
-plt.figure(figsize=(12, 12))
+# plt.figure(figsize=(12, 12))
 
-sns_plot = sns.barplot(y=top_50_publishers.index,
-            x=top_50_publishers.values, palette=cool,orient='h')
+# sns_plot = sns.barplot(y=top_50_publishers.index,
+#             x=top_50_publishers.values, palette=cool,orient='h')
 
-for i, value in enumerate(top_50_publishers.values):
-    sns_plot.text(value, i, int(value), ha="left",
-                  va="center", color='black', fontsize=8)
+# for i, value in enumerate(top_50_publishers.values):
+#     sns_plot.text(value, i, int(value), ha="left",
+#                   va="center", color='black', fontsize=8)
                   
 
 plt.ylabel("Publisher Names")
@@ -202,11 +196,11 @@ ratings_sorted = books_with_rating['Average-Rating'].value_counts().sort_index(a
 #display(ratings_sorted)
 books_with_rating['Average-Rating'].value_counts(normalize=True).round(4).sort_index(ascending=False)
 
-cool = sns.color_palette("cool", n_colors=len(ratings_sorted.values))
-plt.figure(figsize=(25,25))
-ratings_sorted_0_excluded = ratings_sorted.drop(index=0.0).sort_index(ascending=False)
-sns_plot = sns.barplot(x=ratings_sorted_0_excluded.index, y=ratings_sorted_0_excluded.values ,palette=cool)
-plt.xticks(rotation=90)
+# cool = sns.color_palette("cool", n_colors=len(ratings_sorted.values))
+# plt.figure(figsize=(25,25))
+# ratings_sorted_0_excluded = ratings_sorted.drop(index=0.0).sort_index(ascending=False)
+# sns_plot = sns.barplot(x=ratings_sorted_0_excluded.index, y=ratings_sorted_0_excluded.values ,palette=cool)
+# plt.xticks(rotation=90)
 plt.xlabel("Number of Books")
 plt.ylabel('Average Rating')
 plt.title("Number of books with the average rating")
@@ -362,10 +356,4 @@ for i in range(rows):
                 st.write(f"Rating: {famous_top.iloc[index, famous_top.columns.get_loc('Book-Rating')]}")
                 st.image(f"{famous_top.iloc[index, famous_top.columns.get_loc('Image-URL-S')]}")
                 st.markdown("---")  # Línea separadora entre tarjetas
-
-
-            #     st.write(f"**Book-Title:** {famous_top.loc[index+1, 'Book-Title']}")
-            #     st.write(f"**Book-Author:** {famous_top.loc[index+1, 'Book-Author']}")
-            #     st.write(f"**Book-Rating:** {famous_top.loc[index+1, 'Book-Rating']}")
-            #     st.markdown("---")  # Línea separadora entre tarjetas
 
