@@ -1,0 +1,8 @@
+ pandas
+ seaborn 
+ numpy
+ warnings
+ matplotlib.pyplot
+ os
+ nltk
+import

@@ -1,10 +1,8 @@
 import pandas as pd
-#import seaborn as sns
+import seaborn as sns
 import numpy as np
-import warnings
 import matplotlib.pyplot as plt
 import os
-import nltk
 import streamlit as st
 
 st.set_option('deprecation.showPyplotGlobalUse', False)
