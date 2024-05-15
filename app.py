@@ -21,9 +21,11 @@ users = pd.read_csv('data/Users.csv')
 #display(ratings.shape)
 #display(users.shape)
 
+st.title("Book Recommendation System")
+st.subheader("Francisco Dominguez")
 books.isna().sum()
-books[books['Book-Author'].isna()]
-books.iloc[187689]['Book-Title']
+# books[books['Book-Author'].isna()]
+# books.iloc[187689]['Book-Title']
 books.iloc[187689]['Book-Author'] = 'Downes, Larissa Anne'
 users.isna().sum()
 users.drop(columns=['Age'], inplace=True)
@@ -31,7 +33,7 @@ ratings.isnull().sum()
 books.duplicated().sum()
 users.duplicated().sum()
 ratings.duplicated().sum()
-books.head()
+books.head(10)
 
 books.iloc[209538]['Book-Author'] = 'Michael Teitelbbaum'
 books.iloc[209538][
@@ -51,9 +53,9 @@ books.iloc[221678]['Year-Of-Publication'] = 2000
 books.iloc[221678]['Publisher'] = 'DK Publishing Inc'
 
 books['Year-Of-Publication'] = books['Year-Of-Publication'].astype('int64')
-books['Year-Of-Publication'].value_counts().sort_index(ascending=False).iloc[:20]
+#books['Year-Of-Publication'].value_counts().sort_index(ascending=False).iloc[:20]
 
-books[books['Year-Of-Publication']>2021][['Book-Title','Year-Of-Publication','Publisher','Book-Author']]
+#books[books['Year-Of-Publication']>2021][['Book-Title','Year-Of-Publication','Publisher','Book-Author']]
 
 #'MY TEACHER FRIED MY BRAINS (RACK SIZE) (MY TEACHER BOOKS)'
 books.loc[37487, 'Year-Of-Publication'] = 1991
@@ -102,7 +104,7 @@ books.loc[260974, 'Year-Of-Publication'] = 1991
 #     books['Year-Of-Publication'].value_counts().sort_index().iloc[:20])
 # books['Year-Of-Publication'].value_counts().sort_index(ascending=False).iloc[:20]
 
-books[(books['Year-Of-Publication']<1400)&(books['Year-Of-Publication']>0)]
+#books[(books['Year-Of-Publication']<1400)&(books['Year-Of-Publication']>0)]
 
 books_year_rational = books[books['Year-Of-Publication']!=0]['Year-Of-Publication'].value_counts().sort_index(ascending=False).iloc[:20]
 
@@ -113,16 +115,16 @@ for bar in bars:
     height = bar.get_height()
     plt.text(bar.get_x() + bar.get_width()/2, height,
              '{:.0f}'.format(height), ha='center', va='bottom', rotation=90)
-st.pyplot(plt.show())
+#st.pyplot(plt.show())
 
-books[books['Book-Author'].duplicated()]
+#books[books['Book-Author'].duplicated()]
 
 author_book_count = books['Book-Author'].value_counts()
-author_book_count.head(20)
+#author_book_count.head(20)
 
 author_book_count = books[books['Book-Author']!= 'Not Applicable (Na )']
 author_book_count_top50 = author_book_count.groupby('Book-Author').count()['Book-Title'].sort_values(ascending=False).head(50)
-author_book_count_top50.head(10)
+#author_book_count_top50.head(10)
 
 cool = sns.color_palette("cool", n_colors=len(author_book_count_top50.values))
 
@@ -138,13 +140,13 @@ for i, value in enumerate(author_book_count_top50.values):
 plt.ylabel("Author Names")
 plt.xlabel("Number of Books Written")
 plt.title("Top 50 authors with highest number of books written")
-st.pyplot(plt.show())
+#st.pyplot(plt.show())
 
 publishers = books['Publisher'].value_counts()
-publishers
+#publishers
 
 top_50_publishers = publishers.sort_values(ascending=False)[:51]
-top_50_publishers
+#top_50_publishers
 
 cool = sns.color_palette("cool", n_colors=len(author_book_count_top50.values))
 
@@ -161,7 +163,7 @@ for i, value in enumerate(top_50_publishers.values):
 plt.ylabel("Publisher Names")
 plt.xlabel("Number of Books Published")
 plt.title("Top 50 Publishers with highest number of books published")
-st.pyplot(plt.show())
+##st.pyplot(plt.show())
 
 bookRating = pd.merge(ratings, books, on="ISBN")
 bookRating.head()
@@ -170,7 +172,7 @@ averageRating = pd.DataFrame(bookRating.groupby('ISBN')['Book-Rating'].mean().ro
 averageRating.reset_index(inplace=True)
 averageRating.head()
 
-averageRating.shape
+#averageRating.shape
 averageRating.rename(columns={'Book-Rating':'Average-Rating'}, inplace=True)
 averageRating.head()
 
@@ -186,10 +188,10 @@ averageRatingUnique.head()
 ratingBooks = pd.merge(books, averageRatingUnique, on='ISBN', how='inner')
 
 #display(books.shape)
-averageRatingUnique.shape
+#averageRatingUnique.shape
 
 books_with_rating = pd.merge(books, averageRatingUnique, on='ISBN')
-books_with_rating.shape
+#books_with_rating.shape
 
 books_with_rating = books_with_rating[['ISBN','Book-Title','Book-Author','Average-Rating','Year-Of-Publication','Publisher','Image-URL-S','Image-URL-M','Image-URL-L']]
 books_with_rating.head()
@@ -208,23 +210,23 @@ plt.xticks(rotation=90)
 plt.xlabel("Number of Books")
 plt.ylabel('Average Rating')
 plt.title("Number of books with the average rating")
-st.pyplot(plt.show())
+#st.pyplot(plt.show())
 
 top_20_ratings = books_with_rating['Average-Rating'].value_counts().drop(index=0.0).sort_values(ascending=False).head(20)
 
 plt.pie(top_20_ratings, labels=top_20_ratings.index)
 plt.title("Distribution of ratings over total books")
-st.pyplot(plt.show())
+#st.pyplot(plt.show())
 
 #display(users.shape)
-users.head()
+#users.head()
 
 len(users.Location.unique())
 users.Location.value_counts()
 
 ratings_books_merged = ratings.merge(books, on='ISBN')
 #display(ratings_books_merged.head())
-ratings_books_merged.shape
+#ratings_books_merged.shape
 
 ratings_books_nonzero = ratings_books_merged[ratings_books_merged['Book-Rating']!=0]
 num_rating_df = ratings_books_nonzero.groupby('Book-Title').count()['Book-Rating'].sort_values(ascending=False).reset_index()
@@ -236,7 +238,7 @@ avg_rating_df.rename(columns={'Book-Rating':'Average-Rating'}, inplace=True)
 avg_rating_df.head()
 
 popularity_df = pd.merge(num_rating_df, avg_rating_df, on='Book-Title')
-popularity_df
+#popularity_df
 
 popularity_df_above_100 = popularity_df[popularity_df['Number-of-Ratings']>=100]
 popularity_df_above_50 = popularity_df[popularity_df['Number-of-Ratings'] >= 50]
@@ -296,25 +298,26 @@ books_ratings_count.head()
 
 books_ratings_50 = books_ratings_count[books_ratings_count['Number-of-Book-Ratings']>=50]
 #display(books_ratings_50.shape)
-books_ratings_50.head()
+#books_ratings_50.head()
 filtered_books = pd.merge(books_ratings_50, books_with_users_200,  on='Book-Title')
 #display(filtered_books.shape)
-filtered_books.head()
+#filtered_books.head()
 
 famous_books = filtered_books.groupby('Book-Title').count().reset_index()
 famous_books = famous_books['Book-Title']
 famous_books = books[books['Book-Title'].isin(famous_books)]
 famous_books = famous_books.copy()
 famous_books.drop_duplicates(subset=['Book-Title'], inplace=True, keep='first')
-famous_books
+famous_top = filtered_books.groupby('Book-Title').max().reset_index()[filtered_books['Book-Rating']==10]
+famous_top.shape
 
 pt = filtered_books.pivot_table(index='Book-Title',columns='User-ID', values='Book-Rating')
 pt.fillna(0, inplace=True)
-pt
+#pt
 
 from sklearn.metrics.pairwise import cosine_similarity
 similarities = cosine_similarity(pt)
-similarities
+#similarities
 
 def recommend(book_name):
     if book_name in pt.index:
@@ -322,19 +325,49 @@ def recommend(book_name):
         similar_books_list = sorted(
         list(enumerate(similarities[index])), key=lambda x: x[1], reverse=True)[1:11]
         
-        print(f'Recommendations for the book {book_name}:')
-        print('-'*5)
-        for book in similar_books_list:
-            print(pt.index[book[0]])
+        st.write('-'*5)
+        st.write(f'Recommendations for the book {book_name}:')
+        for book in similar_books_list[:5]:
+            st.write(pt.index[book[0]])
         print('\n')
 
     else:
-        print('Book Not Found')
-        print('\n')
+        st.write('Book Not Found')
+        st.write('\n')
 
-recommend('Harry Potter and the Chamber of Secrets (Book 2)')
-recommend('1984')
-recommend('Message in a Bottle')
-recommend('The Da Vinci Code')
-recommend('The Return of the King (The Lord of the Rings, Part 3)')
-recommend('The Hobbit')
+
+
+row1 = st.columns(8)
+row2 = st.columns(8)
+row3 = st.columns(8)
+row4 = st.columns(8)
+row5 = st.columns(8)
+row6 = st.columns(8)
+row7 = st.columns(8)
+row8 = st.columns(8)
+row9 = st.columns(8)
+row10 = st.columns(8)
+row11= st.columns(8)
+row12 = st.columns(8)
+row13 = st.columns(8)
+row14 = st.columns(8)
+row15 = st.columns(8)
+row16 = st.columns(8)
+row17 = st.columns(8)
+row18 = st.columns(8)
+
+rows = st.columns(8)
+for row in range(17):
+    rows = rows + st.columns(8)
+
+for col in rows:
+    tile = col.container()
+    tile.title(":balloon:")
+
+
+selected_book = st.selectbox(
+   "Select a book",
+   (filtered_books['Book-Title'].tolist())
+)
+st.write(selected_book)
+recommend(selected_book)
